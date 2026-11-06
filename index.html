@@ -290,7 +290,10 @@
 				intro: "Some projects I've worked on in my time at university.",
 				topics: [
 					["Formula Motorsports", "Powertrain and aerodynamics." , "formula-motorsports.html"],
-					["Class Projects", "Selected coursework.", "class-projects.html"]
+					["Class Projects", "Selected coursework.", null, [
+						["Class 1", "Course project.", "class-1.html"],
+						["Class 2", "Course project.", "class-2.html"]
+					]]
 				]
 			},
 			physics: {
@@ -321,7 +324,7 @@
 					<button class="node main-node ${key}" type="button" data-field="${key}" aria-expanded="${expandedFields.has(key)}">
 						<span class="label">${field.title}</span><small>${field.index.split(" / ")[1]}</small>
 					</button>
-					${expandedFields.has(key) ? `<div class="map-topics" aria-label="${field.title} topics">${field.topics.map(([title, copy, href]) => `<a class="topic" href="${href}"><h3>${title}</h3><p>${copy}</p></a>`).join("")}</div>` : ""}
+					${expandedFields.has(key) ? `<div class="map-topics" aria-label="${field.title} topics">${field.topics.map(([title, copy, href, children]) => `${href ? `<a class="topic" href="${href}"><h3>${title}</h3><p>${copy}</p></a>` : `<div class="topic"><h3>${title}</h3><p>${copy}</p></div>`}${children ? children.map(([childTitle, childCopy, childHref]) => `<a class="topic" href="${childHref}"><h3>${childTitle}</h3><p>${childCopy}</p></a>`).join("") : ""}`).join("")}</div>` : ""}
 				</div>`).join("") : "";
 			hint.textContent = rootExpanded ? "Select a field to reveal its projects and topics." : "Select Field Notes to reveal its fields.";
 		}
