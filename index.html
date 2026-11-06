@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="A personal portfolio of academic and professional development.">
+	<title>My Portfolio</title>
+	<style>
+		:root {
+			color-scheme: light;
+			--ink: #202c3b;
+			--muted: #647184;
+			--paper: #f7f8fc;
+			--line: #dce2ed;
+			--accent: #5069d8;
+		}
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body {
+			margin: 0;
+			color: var(--ink);
+			background: var(--paper);
+			font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		}
+		header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+			padding: 1.1rem max(6vw, 1.25rem);
+			background: #fff;
+			border-bottom: 1px solid var(--line);
+		}
+		.brand { color: var(--ink); font-weight: 750; text-decoration: none; letter-spacing: .02em; }
+		nav a { margin-left: 1.25rem; color: var(--muted); font-size: .95rem; text-decoration: none; }
+		nav a:hover, nav a:focus-visible { color: var(--accent); }
+		main { width: min(100% - 2.5rem, 960px); margin: 0 auto; }
+		.intro { padding: clamp(3.5rem, 9vw, 7rem) 0 2.5rem; text-align: center; }
+		.eyebrow { color: var(--accent); font-size: .8rem; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+		h1 { margin: .35rem 0 .75rem; font-size: clamp(2.4rem, 7vw, 4.5rem); line-height: 1.08; letter-spacing: -.045em; }
+		.intro p { max-width: 580px; margin: 0 auto; color: var(--muted); font-size: 1.1rem; }
+		.map { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; padding: 2rem 0 4.5rem; }
+		.map::before { position: absolute; z-index: -1; top: 50%; left: 16%; right: 16%; height: 2px; content: ""; background: var(--line); }
+		.map-link {
+			display: grid;
+			min-height: 190px;
+			place-content: center;
+			gap: .45rem;
+			padding: 1.5rem;
+			color: var(--ink);
+			text-align: center;
+			text-decoration: none;
+			background: #fff;
+			border: 1px solid var(--line);
+			border-radius: 22px;
+			box-shadow: 0 12px 30px rgb(37 52 82 / 6%);
+			transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+		}
+		.map-link:hover, .map-link:focus-visible { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 16px 34px rgb(37 52 82 / 12%); outline: none; }
+		.map-link .icon { font-size: 1.8rem; }
+		.map-link strong { font-size: 1.12rem; }
+		.map-link span:last-child { color: var(--muted); font-size: .9rem; }
+		.details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; padding-bottom: 4rem; }
+		.details article { padding: 1.35rem; background: #fff; border: 1px solid var(--line); border-radius: 16px; scroll-margin-top: 2rem; }
+		.details h2 { margin: 0 0 .4rem; font-size: 1.1rem; }
+		.details p { margin: 0; color: var(--muted); font-size: .94rem; }
+		footer { padding: 1.5rem; color: var(--muted); text-align: center; border-top: 1px solid var(--line); font-size: .9rem; }
+		@media (max-width: 650px) {
+			header { align-items: flex-start; flex-direction: column; }
+			nav a { margin: 0 1rem 0 0; }
+			.map, .details { grid-template-columns: 1fr; }
+			.map { max-width: 420px; margin: 0 auto; }
+			.map::before { top: 10%; bottom: 10%; left: 50%; right: auto; width: 2px; height: auto; }
+			.map-link { min-height: 150px; }
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<a class="brand" href="#home">Your Name</a>
+		<nav aria-label="Main navigation">
+			<a href="#home">Home</a>
+			<a href="#journey">Journey</a>
+			<a href="mailto:hello@example.com">Contact</a>
+		</nav>
+	</header>
+
+	<main id="home">
+		<section class="intro" aria-labelledby="page-title">
+			<span class="eyebrow">A little about me</span>
+			<h1 id="page-title">Learning, building, growing.</h1>
+			<p>Welcome to my corner of the web. Explore the ideas, experiences, and goals shaping my academic and professional journey.</p>
+		</section>
+
+		<section class="map" id="journey" aria-label="Explore my journey">
+			<a class="map-link" href="#academics">
+				<span class="icon" aria-hidden="true">📚</span>
+				<strong>Academics</strong>
+				<span>What I’m learning</span>
+			</a>
+			<a class="map-link" href="#experience">
+				<span class="icon" aria-hidden="true">💡</span>
+				<strong>Experience</strong>
+				<span>What I’m working on</span>
+			</a>
+			<a class="map-link" href="#goals">
+				<span class="icon" aria-hidden="true">🌱</span>
+				<strong>Goals &amp; interests</strong>
+				<span>Where I’m headed</span>
+			</a>
+		</section>
+
+		<section class="details" aria-label="Journey details">
+			<article id="academics">
+				<h2>Academics</h2>
+				<p>Add your field of study, current courses, research, or academic milestones here.</p>
+			</article>
+			<article id="experience">
+				<h2>Experience</h2>
+				<p>Share internships, projects, roles, skills, and the work you’re proud of.</p>
+			</article>
+			<article id="goals">
+				<h2>Goals &amp; interests</h2>
+				<p>Describe what you’re curious about and the opportunities you hope to pursue.</p>
+			</article>
+		</section>
+	</main>
+
+	<footer>© <span id="year"></span> Your Name · Made with curiosity</footer>
+	<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
