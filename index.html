@@ -137,6 +137,89 @@
 		@media (prefers-reduced-motion: reduce) {
 			.map .node, .detail .topic { transition: none; }
 		}
+		/* Progressive mind-map layout: root, branches, then linked topics. */
+		.map {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 30px;
+			width: min(100%, 1100px);
+			height: auto;
+			min-height: 170px;
+			padding: 20px 0 36px;
+		}
+		.map-lines { display: none !important; }
+		.map .node {
+			position: relative;
+			inset: auto;
+			left: auto;
+			transform: none;
+			font: inherit;
+			cursor: pointer;
+		}
+		.map .node:hover,
+		.map .node:focus-visible { transform: translateY(-3px); }
+		.map .root-node { top: auto; }
+		.map-branches {
+			position: relative;
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			align-items: start;
+			gap: 24px;
+			width: 100%;
+			padding-top: 30px;
+		}
+		.map-branches::before {
+			position: absolute;
+			top: 0;
+			left: 16.66%;
+			right: 16.66%;
+			height: 1px;
+			background: rgba(130, 179, 194, .55);
+			content: "";
+		}
+		.map-branch { position: relative; display: grid; justify-items: center; gap: 18px; }
+		.map-branch::before {
+			position: absolute;
+			top: -30px;
+			left: 50%;
+			width: 1px;
+			height: 30px;
+			background: rgba(130, 179, 194, .55);
+			content: "";
+		}
+		.map-branch .node { width: min(100%, 260px); }
+		.map-topics { position: relative; display: grid; gap: 12px; width: min(100%, 300px); padding-top: 8px; }
+		.map-topics::before {
+			position: absolute;
+			top: -10px;
+			left: 50%;
+			height: 18px;
+			border-left: 1px solid rgba(130, 179, 194, .55);
+			content: "";
+		}
+		.map-topics .topic {
+			position: relative;
+			z-index: 1;
+			padding: 14px 16px;
+			border: 1px solid rgba(154, 199, 200, .3);
+			border-radius: 10px;
+			background: #102331;
+			color: #f2f5ee;
+			text-align: center;
+			text-decoration: none;
+			box-shadow: 0 6px 18px rgba(0, 0, 0, .16);
+		}
+		.map-topics .topic:hover,
+		.map-topics .topic:focus-visible { border-color: #9ac7c8; background: #183242; }
+		.map-topics h3 { margin: 0; color: inherit; font-size: .95rem; }
+		.map-topics p { margin: 6px 0 0; color: #a9c5c6; font-size: .85rem; }
+		@media (max-width: 700px) {
+			.map-branches { grid-template-columns: 1fr; gap: 34px; width: min(100%, 420px); }
+			.map-branches::before { left: 50%; right: auto; bottom: 0; height: auto; }
+			.map-branch { gap: 16px; }
+			.map-branch::before { top: -34px; height: 34px; }
+		}
 	</style>
 </head>
 <body>
@@ -151,20 +234,10 @@
 			<p>A map of the ideas I've explored and built.</p>
 		</section>
 		<section class="map" id="map" aria-label="Portfolio mind map">
-			<svg class="map-lines desktop-lines" viewBox="0 0 930 435" preserveAspectRatio="none" aria-hidden="true">
-				<path d="M465 110 C420 165 280 220 158 295"/><path d="M465 110 L465 295"/><path d="M465 110 C510 165 650 220 772 295"/>
-				<circle cx="465" cy="110" r="3"/><circle cx="158" cy="295" r="3"/><circle cx="465" cy="295" r="3"/><circle cx="772" cy="295" r="3"/>
-			</svg>
-			<svg class="map-lines mobile-lines" viewBox="0 0 400 620" preserveAspectRatio="none" aria-hidden="true">
-				<path d="M200 68 L200 232"/><path d="M200 68 L200 387"/><path d="M200 68 L200 542"/>
-				<circle cx="200" cy="68" r="3"/><circle cx="200" cy="232" r="3"/><circle cx="200" cy="387" r="3"/><circle cx="200" cy="542" r="3"/>
-			</svg>
-			<div class="node root-node"><span class="label">Field Notes</span><small>IDEAS &amp; PROJECTS</small></div>
-			<a class="node main-node engineering" href="#engineering" data-page="engineering"><span class="label">Engineering</span><small>MY DEGREE</small></a>
-			<a class="node main-node physics" href="#physics" data-page="physics"><span class="label">Physics</span><small>WHAT MATTERS</small></a>
-			<a class="node main-node mathematics" href="#mathematics" data-page="mathematics"><span class="label">Mathematics</span><small>FOR THE LOVE OF IT</small></a>
+			<button class="node root-node" id="root-toggle" type="button" aria-expanded="false"><span class="label">Field Notes</span><small>IDEAS &amp; PROJECTS</small></button>
+			<div class="map-branches" id="map-branches" hidden></div>
 		</section>
-        <p class="hint" id="hint">Select a field to explore it.</p>
+		<p class="hint" id="hint">Select Field Notes to reveal its fields.</p>
 		<section class="detail" id="detail" hidden aria-live="polite"></section>
 	</main>
 	<footer>Amrita Singh</footer>
@@ -193,27 +266,37 @@
 				]
 			}
 		};
-		const map = document.getElementById("map");
-		const intro = document.getElementById("intro");
+		const rootToggle = document.getElementById("root-toggle");
+		const branches = document.getElementById("map-branches");
 		const hint = document.getElementById("hint");
-		const detail = document.getElementById("detail");
-		function showPage(key) {
-			const field = fields[key];
-			if (!field) {
-				intro.hidden = false; map.hidden = false; hint.hidden = false; detail.hidden = true;
-				detail.innerHTML = "";
-				return;
-			}
-			intro.hidden = true; map.hidden = true; hint.hidden = true; detail.hidden = false;
-			detail.innerHTML = `<button class="back" type="button" aria-label="Back to all fields">←&nbsp; All fields</button>
-				<div class="detail-heading"><div class="eyebrow">${field.index}</div><h2>${field.title}</h2><p>${field.intro}</p></div>
-				<div class="topic-map" aria-label="${field.title} topics">${field.topics.map(([title, copy, href]) => href ? `<a class="topic topic-link" href="${href}"><h3>${title}</h3><p>${copy}</p></a>` : `<article class="topic"><h3>${title}</h3><p>${copy}</p></article>`).join("")}</div>`;
-			detail.querySelector(".back").addEventListener("click", () => { location.hash = "home"; });
+		let rootExpanded = false;
+		const expandedFields = new Set();
+		function renderMap() {
+			rootToggle.setAttribute("aria-expanded", String(rootExpanded));
+			branches.hidden = !rootExpanded;
+			branches.innerHTML = rootExpanded ? Object.entries(fields).map(([key, field]) => `
+				<div class="map-branch">
+					<button class="node main-node ${key}" type="button" data-field="${key}" aria-expanded="${expandedFields.has(key)}">
+						<span class="label">${field.title}</span><small>${field.index.split(" / ")[1]}</small>
+					</button>
+					${expandedFields.has(key) ? `<div class="map-topics" aria-label="${field.title} topics">${field.topics.map(([title, copy, href]) => `<a class="topic" href="${href}"><h3>${title}</h3><p>${copy}</p></a>`).join("")}</div>` : ""}
+				</div>`).join("") : "";
+			hint.textContent = rootExpanded ? "Select a field to reveal its projects and topics." : "Select Field Notes to reveal its fields.";
 		}
-		document.querySelectorAll("[data-page]").forEach(link => link.addEventListener("click", () => showPage(link.dataset.page)));
-		document.getElementById("home-link").addEventListener("click", () => showPage("home"));
-		window.addEventListener("hashchange", () => showPage(location.hash.slice(1)));
-		showPage(location.hash.slice(1));
+		rootToggle.addEventListener("click", () => { rootExpanded = !rootExpanded; renderMap(); });
+		branches.addEventListener("click", event => {
+			const button = event.target.closest("[data-field]");
+			if (!button) return;
+			const key = button.dataset.field;
+			expandedFields.has(key) ? expandedFields.delete(key) : expandedFields.add(key);
+			renderMap();
+		});
+		document.getElementById("home-link").addEventListener("click", () => {
+			rootExpanded = false;
+			expandedFields.clear();
+			renderMap();
+		});
+		renderMap();
 	</script>
 </body>
 </html>
