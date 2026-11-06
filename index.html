@@ -6,6 +6,82 @@
 	<meta name="theme-color" content="#07111c">
 	<title>Field Notes — A Personal Portfolio</title>
 	<link rel="stylesheet" href="style.css">
+	<style>
+		/* Keep the map legible and connected at desktop and mobile sizes. */
+		.map {
+			position: relative;
+			display: block;
+			width: min(100%, 930px);
+			height: clamp(360px, 48vw, 435px);
+			margin-inline: auto;
+		}
+		.map-lines {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 0;
+			overflow: visible;
+		}
+		.map-lines path {
+			fill: none;
+			stroke: rgba(130, 179, 194, .48);
+			stroke-width: 2;
+			vector-effect: non-scaling-stroke;
+		}
+		.map-lines circle {
+			fill: #9ac7c8;
+		}
+		.map-lines.mobile-lines { display: none; }
+		.map .node {
+			position: absolute;
+			z-index: 1;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			box-sizing: border-box;
+			min-width: 150px;
+			padding: 17px 20px;
+			border: 1px solid rgba(154, 199, 200, .42);
+			border-radius: 12px;
+			background: #102331;
+			color: #f2f5ee;
+			text-align: center;
+			text-decoration: none;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+			transition: transform .18s ease, border-color .18s ease, background .18s ease;
+		}
+		.map .node:hover,
+		.map .node:focus-visible {
+			transform: translate(-50%, -50%) translateY(-3px);
+			border-color: #9ac7c8;
+			background: #183242;
+		}
+		.map .node:focus-visible { outline: 2px solid #9ac7c8; outline-offset: 4px; }
+		.map .node .label { display: block; font-size: 1rem; }
+		.map .node small { display: block; margin-top: 6px; color: #a9c5c6; font-size: .65rem; letter-spacing: .12em; }
+		.map .root-node {
+			top: 25.3%;
+			min-width: 170px;
+			border-color: #9ac7c8;
+			background: #1b3947;
+		}
+		.map .engineering { left: 17%; top: 67.8%; }
+		.map .physics { left: 50%; top: 67.8%; }
+		.map .mathematics { left: 83%; top: 67.8%; }
+		@media (max-width: 600px) {
+			.map { height: 620px; }
+			.map-lines.desktop-lines { display: none; }
+			.map-lines.mobile-lines { display: block; }
+			.map .node { left: 50%; min-width: min(230px, 78vw); }
+			.map .root-node { top: 11%; }
+			.map .engineering { left: 50%; top: 37.5%; }
+			.map .physics { left: 50%; top: 62.5%; }
+			.map .mathematics { left: 50%; top: 87.5%; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.map .node { transition: none; }
+		}
+	</style>
 </head>
 <body>
 	<header>
@@ -19,10 +95,15 @@
 			<p>A map of the ideas I've explored and built.</p>
 		</section>
 		<section class="map" id="map" aria-label="Portfolio mind map">
-			<svg class="map-lines" viewBox="0 0 930 435" preserveAspectRatio="none" aria-hidden="true">
-				<path d="M465 118 C420 170 280 202 158 248"/><path d="M465 118 L465 248"/><path d="M465 118 C510 170 650 202 772 248"/>
-				<circle cx="465" cy="118" r="3"/><circle cx="158" cy="248" r="3"/><circle cx="465" cy="248" r="3"/><circle cx="772" cy="248" r="3"/>
+			<svg class="map-lines desktop-lines" viewBox="0 0 930 435" preserveAspectRatio="none" aria-hidden="true">
+				<path d="M465 110 C420 165 280 220 158 295"/><path d="M465 110 L465 295"/><path d="M465 110 C510 165 650 220 772 295"/>
+				<circle cx="465" cy="110" r="3"/><circle cx="158" cy="295" r="3"/><circle cx="465" cy="295" r="3"/><circle cx="772" cy="295" r="3"/>
 			</svg>
+			<svg class="map-lines mobile-lines" viewBox="0 0 400 620" preserveAspectRatio="none" aria-hidden="true">
+				<path d="M200 68 L200 232"/><path d="M200 68 L200 387"/><path d="M200 68 L200 542"/>
+				<circle cx="200" cy="68" r="3"/><circle cx="200" cy="232" r="3"/><circle cx="200" cy="387" r="3"/><circle cx="200" cy="542" r="3"/>
+			</svg>
+			<div class="node root-node"><span class="label">Field Notes</span><small>IDEAS &amp; PROJECTS</small></div>
 			<a class="node main-node engineering" href="#engineering" data-page="engineering"><span class="label">Engineering</span><small>MY DEGREE</small></a>
 			<a class="node main-node physics" href="#physics" data-page="physics"><span class="label">Physics</span><small>WHAT MATTERS</small></a>
 			<a class="node main-node mathematics" href="#mathematics" data-page="mathematics"><span class="label">Mathematics</span><small>FOR THE LOVE OF IT</small></a>
