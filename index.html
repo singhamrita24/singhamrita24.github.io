@@ -78,6 +78,8 @@
 		.topic::before { content: ""; position: absolute; width: 9px; height: 9px; top: -5px; left: 50%; border-radius: 50%; background: var(--tone); box-shadow: 0 0 12px var(--tone); }
 		.topic h3 { margin: 0; font: 400 21px Georgia, serif; }
 		.topic p { max-width: 220px; margin: 10px 0 0; color: #9cabb2; font: 12px/1.55 Georgia, serif; }
+		a.topic-link { color: inherit; text-decoration: none; cursor: pointer; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+		a.topic-link:hover, a.topic-link:focus-visible { transform: translateY(-4px); border-color: var(--tone); box-shadow: 0 0 24px color-mix(in srgb, var(--tone) 18%, transparent); outline: none; }
 		.topic:nth-child(2) { --tone: var(--gold); }
 		.topic:nth-child(3) { --tone: var(--violet); }
 		footer { position: relative; z-index: 1; padding: 22px 24px 30px; color: #718692; text-align: center; font: 10px "Segoe UI", sans-serif; letter-spacing: .12em; }
@@ -97,13 +99,13 @@
 <body>
 	<header>
 		<a class="brand" href="#home" aria-label="Field Notes home" id="home-link"><span class="brand-mark">∴</span><span class="brand-name">Field Notes</span></a>
-		<div class="header-note">An atlas of things<br>worth figuring out</div>
+		<div class="header-note">An atlas of things<br>I've explored</div>
 	</header>
 	<main>
 		<section class="intro" id="intro">
 			<div class="eyebrow">A personal portfolio · 01—03</div>
-			<h1>Curiosity, connected.</h1>
-			<p>A map of the ideas I explore, build, and keep coming back to.</p>
+			<h1>Field Notes</h1>
+			<p>A map of the ideas I've explored and built.</p>
 		</section>
 		<section class="map" id="map" aria-label="Portfolio mind map">
 			<svg class="map-lines" viewBox="0 0 930 435" preserveAspectRatio="none" aria-hidden="true">
@@ -114,33 +116,31 @@
 			<a class="node main-node physics" href="#physics" data-page="physics"><span class="label">Physics</span><small>matter &amp; motion</small></a>
 			<a class="node main-node mathematics" href="#mathematics" data-page="mathematics"><span class="label">Mathematics</span><small>patterns &amp; proof</small></a>
 		</section>
-		<div class="hint" id="hint">Select a field to follow its threads&nbsp; ↗</div>
 		<section class="detail" id="detail" hidden aria-live="polite"></section>
 	</main>
-	<footer>NOTES FROM THE <span>IN-BETWEEN</span> · ALWAYS LEARNING</footer>
+	<footer>Amrita Singh</footer>
 	<script>
 		const fields = {
 			engineering: {
-				title: "Engineering", index: "01 / SYSTEMS & MAKING",
-				intro: "Ideas become useful when they meet the real world. These are the systems I like to understand from the inside out.",
+				title: "Engineering", index: "01 / MY DEGREE",
+				intro: "Some projects I've worked on in my time at university.",
 				topics: [
-					["Electrical", "Circuits, signals, and the invisible paths that make things work."],
-					["Mechanical", "Motion, materials, and the elegant logic of physical machines."]
+					["Formula Motorsports", "Powertrain and aerodynamics." , "formula-motorsports.html"],
+					["Class Projects", "Selected coursework.", "class-projects.html"]
 				]
 			},
 			physics: {
-				title: "Physics", index: "02 / MATTER & MOTION",
-				intro: "A search for the simple rules behind complicated behavior—from the everyday to the almost impossibly small.",
+				title: "Physics", index: "02 / THE CENTER OF WHAT I LOVE",
+				intro: "Research I've had the opportunity to get involved with.",
 				topics: [
-					["Superconductors & semiconductors", "Two remarkable ways materials shape the flow of electricity."],
-					["Graphene", "A single layer of carbon, opening up a world of unexpected properties."]
+					["Superconductors and Semiconductors", "Electronic materials." , "superconductors-semiconductors.html"],
 				]
 			},
 			mathematics: {
-				title: "Mathematics", index: "03 / PATTERNS & PROOF",
-				intro: "A language for seeing structure: how a few precise ideas can describe a surprising amount of the world.",
+				title: "Mathematics", index: "03 / FOR THE LOVE OF IT",
+				intro: "I don't consider myself a math person.",
 				topics: [
-					["Directed reading", "Independent explorations, carefully chosen questions, and notes along the way."]
+					["Rational Points on Elliptic Curves", "Solutions to squiggles", "rational-points-elliptic-curves.html"]
 				]
 			}
 		};
@@ -158,7 +158,7 @@
 			intro.hidden = true; map.hidden = true; hint.hidden = true; detail.hidden = false;
 			detail.innerHTML = `<button class="back" type="button" aria-label="Back to all fields">←&nbsp; All fields</button>
 				<div class="detail-heading"><div class="eyebrow">${field.index}</div><h2>${field.title}</h2><p>${field.intro}</p></div>
-				<div class="topic-map" aria-label="${field.title} topics">${field.topics.map(([title, copy]) => `<article class="topic"><h3>${title}</h3><p>${copy}</p></article>`).join("")}</div>`;
+				<div class="topic-map" aria-label="${field.title} topics">${field.topics.map(([title, copy, href]) => href ? `<a class="topic topic-link" href="${href}"><h3>${title}</h3><p>${copy}</p></a>` : `<article class="topic"><h3>${title}</h3><p>${copy}</p></article>`).join("")}</div>`;
 			detail.querySelector(".back").addEventListener("click", () => { location.hash = "home"; });
 		}
 		document.querySelectorAll("[data-page]").forEach(link => link.addEventListener("click", () => showPage(link.dataset.page)));
