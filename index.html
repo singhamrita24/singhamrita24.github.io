@@ -59,11 +59,67 @@
 		.map .node:focus-visible { outline: 2px solid #9ac7c8; outline-offset: 4px; }
 		.map .node .label { display: block; font-size: 1rem; }
 		.map .node small { display: block; margin-top: 6px; color: #a9c5c6; font-size: .65rem; letter-spacing: .12em; }
+		/* Keep detail pages in the same visual language as the portfolio map. */
+		.detail .topic-map {
+			position: relative;
+			display: grid;
+			gap: 22px;
+			width: min(100%, 700px);
+			margin: 40px auto 0;
+			padding: 8px 0;
+		}
+		.detail .topic-map::before {
+			position: absolute;
+			top: -32px;
+			bottom: 50%;
+			left: 50%;
+			width: 2px;
+			background: rgba(252, 196, 5, .48);
+			content: "";
+		}
+		.detail .topic {
+			position: relative;
+			z-index: 1;
+			display: block;
+			box-sizing: border-box;
+			width: min(100%, 520px);
+			margin-inline: auto;
+			padding: 20px 24px;
+			border: 1px solid rgba(252, 196, 5, .42);
+			border-radius: 12px;
+			background: #781200;
+			color: #FFF4D6;
+			text-align: center;
+			text-decoration: none;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+			transition: transform .18s ease, border-color .18s ease, background .18s ease;
+		}
+		.detail .topic::before {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 10px;
+			height: 10px;
+			border: 2px solid #9ac7c8;
+			border-radius: 50%;
+			background: #781200;
+			content: "";
+			transform: translate(-50%, -50%);
+		}
+		.detail .topic h3 { margin: 0; color: inherit; }
+		.detail .topic p { margin: 8px 0 0; color: #F2C56B; }
+		.detail a.topic:hover,
+		.detail a.topic:focus-visible {
+			transform: translateY(-3px);
+			border-color: #FCC405;
+			background: #35102F;
+		}
+		.detail a.topic:focus-visible { outline: 2px solid #FCC405; outline-offset: 4px; }
 		.map .root-node {
 			top: 25.3%;
 			min-width: 170px;
-			border-color: #9ac7c8;
-			background: #1b3947;
+			border-color: #FCC405;
+			background: #781200;
 		}
 		.map .engineering { left: 17%; top: 67.8%; }
 		.map .physics { left: 50%; top: 67.8%; }
@@ -79,7 +135,7 @@
 			.map .mathematics { left: 50%; top: 87.5%; }
 		}
 		@media (prefers-reduced-motion: reduce) {
-			.map .node { transition: none; }
+			.map .node, .detail .topic { transition: none; }
 		}
 	</style>
 </head>
