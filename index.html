@@ -220,6 +220,38 @@
 			.map-branch { gap: 16px; }
 			.map-branch::before { top: -34px; height: 34px; }
 		}
+		/* Use a consistent dark red, dark blue, yellow, and cream palette for controls. */
+		.map .node {
+			border-color: #FCC405;
+			background: #102331;
+			color: #FFF4D6;
+		}
+		.map .root-node { background: #781200; }
+		.map .node small { color: #FCC405; }
+		.map .node:hover,
+		.map .node:focus-visible {
+			border-color: #FFF4D6;
+			background: #781200;
+		}
+		.map .node:focus-visible,
+		.map-topics .topic:focus-visible,
+		.detail a.topic:focus-visible { outline-color: #FCC405; }
+		.map-topics .topic {
+			border-color: #FCC405;
+			background: #102331;
+			color: #FFF4D6;
+		}
+		.map-topics p { color: #FFF4D6; }
+		.map-topics .topic:hover,
+		.map-topics .topic:focus-visible {
+			border-color: #FFF4D6;
+			background: #781200;
+		}
+		.detail .topic { border-color: #FCC405; background: #781200; color: #FFF4D6; }
+		.detail .topic::before { border-color: #FCC405; background: #102331; }
+		.detail .topic p { color: #FFF4D6; }
+		.detail a.topic:hover,
+		.detail a.topic:focus-visible { border-color: #FFF4D6; background: #102331; }
 	</style>
 </head>
 <body>
