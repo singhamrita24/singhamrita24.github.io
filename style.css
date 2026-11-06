@@ -1,0 +1,151 @@
+/* =================================
+   FIELD NOTES — GLOBAL THEME
+   ================================= */
+
+:root {
+    color-scheme: dark;
+
+    /* Colors */
+    --ink: #edf4f5;
+    --muted: #91a5b1;
+    --line: rgba(165, 202, 211, .2);
+
+    --cyan: #79e1dc;
+    --gold: #f0c47c;
+    --violet: #c4a5ff;
+
+    --bg: #07111c;
+    --surface: #10202b;
+
+    /* Typography */
+    --font-body: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    --font-heading: Georgia, "Times New Roman", serif;
+
+    /* Layout */
+    --content-width: 1180px;
+    --page-padding: clamp(22px, 6vw, 88px);
+}
+
+/* =================================
+   GLOBAL RESET
+   ================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    background: var(--bg);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--ink);
+    font-family: var(--font-body);
+
+    background: radial-gradient(
+        ellipse at 50% 42%,
+        #142735 0,
+        #0b1925 38%,
+        var(--bg) 76%
+    );
+
+    overflow-x: hidden;
+}
+
+/* =================================
+   SHARED HEADER
+   ================================= */
+
+header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 27px var(--page-padding);
+    border-bottom: 1px solid rgba(180, 218, 222, .1);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.brand-mark {
+    width: 29px;
+    height: 29px;
+    border: 1px solid var(--cyan);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--cyan);
+    font: 14px var(--font-heading);
+}
+
+.brand-name {
+    font: 600 11px "Segoe UI", sans-serif;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+}
+
+/* =================================
+   SHARED CONTENT
+   ================================= */
+
+main {
+    position: relative;
+    z-index: 1;
+    max-width: var(--content-width);
+    margin: auto;
+    padding: 68px 24px 48px;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+}
+
+.eyebrow {
+    color: var(--cyan);
+    font: 10px/1.5 "Segoe UI", sans-serif;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+}
+
+/* =================================
+   SHARED FOOTER
+   ================================= */
+
+footer {
+    position: relative;
+    z-index: 1;
+    padding: 22px 24px 30px;
+    color: #718692;
+    text-align: center;
+    font: 10px "Segoe UI", sans-serif;
+    letter-spacing: .12em;
+}
+
+footer span {
+    color: var(--cyan);
+}
+
+/* =================================
+   RESPONSIVE
+   ================================= */
+
+@media (max-width: 620px) {
+    header {
+        padding: 20px;
+    }
+
+    main {
+        padding: 48px 18px 34px;
+    }
+}
