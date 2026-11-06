@@ -7,6 +7,9 @@
 	<title>Field Notes — A Personal Portfolio</title>
 	<link rel="stylesheet" href="style.css">
 	<style>
+		body, body * {
+			font-family: Arial, Helvetica, sans-serif;
+		}
 		/* Keep the map legible and connected at desktop and mobile sizes. */
 		.map {
 			position: relative;
@@ -178,6 +181,14 @@
 			background: rgba(130, 179, 194, .55);
 			content: "";
 		}
+		.map-branches::after {
+			position: absolute;
+			top: -30px;
+			left: 50%;
+			height: 30px;
+			border-left: 1px solid rgba(130, 179, 194, .55);
+			content: "";
+		}
 		.map-branch { position: relative; display: grid; justify-items: center; gap: 18px; }
 		.map-branch::before {
 			position: absolute;
@@ -216,7 +227,8 @@
 		.map-topics p { margin: 6px 0 0; color: #a9c5c6; font-size: .85rem; }
 		@media (max-width: 700px) {
 			.map-branches { grid-template-columns: 1fr; gap: 34px; width: min(100%, 420px); }
-			.map-branches::before { left: 50%; right: auto; bottom: 0; height: auto; }
+			.map-branches::before { top: -30px; left: 50%; right: auto; bottom: 0; height: auto; }
+			.map-branches::after { display: none; }
 			.map-branch { gap: 16px; }
 			.map-branch::before { top: -34px; height: 34px; }
 		}
